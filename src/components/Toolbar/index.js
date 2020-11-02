@@ -8,17 +8,12 @@ const Toolbar = () => {
   const activeComments = useSelector(
     (state) => state.allCommments.activeComments
   );
-  const alert = useSelector(
-    (state) => state.app.alert
-  );
 
   const onRemoveClick = () => {
     dispatch(removeComment(activeComments));
-    console.log('activeComments.length', activeComments.length)
-    if (activeComments.length) {
-      console.log('activeComments.length', activeComments.length)
+    if (activeComments.length !== 0) {
+      dispatch(showAlert("Комментарий успешно удален"));
     }
-    dispatch(showAlert("Комментарий успешно удален"));
 
   };
   return (
