@@ -1,0 +1,32 @@
+.sidebar {
+  background: #434345;
+  .logo {
+    height: 60px;
+    text-align: center;
+    line-height: 60px;
+    margin-bottom: 0;
+    background: #327896;
+    color: #ffffff;
+    font-weight: 300;
+    font-size: 30px;
+    padding: 0 20px;
+    span {
+      color: #9cc4df;
+    }
+  }
+  .menu {
+    margin-bottom: 0;
+    color: #d1c9c0;
+    a {
+      display: block;
+      padding: 0 20px;
+      line-height: 40px;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: #d1c9c0;
+      &.active {
+        background-color: #565658;
+      }
+    }
+  }
+}

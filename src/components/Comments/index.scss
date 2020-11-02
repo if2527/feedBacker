@@ -1,0 +1,31 @@
+table {
+  border-collapse: collapse;
+  table-layout: auto;
+  width: 100%;
+  thead {
+    text-align: left;
+    border-bottom: 1px solid lightgray;
+    font-weight: 700;
+  }
+  th,
+  td {
+    padding: 15px 10px;
+    vertical-align: middle;
+    strong {
+      font-weight: 700;
+    }
+    em {
+      font-style: italic;
+    }
+  }
+  tr {
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    &:hover {
+      background-color: #DDDDDD;
+    }
+    &.active {
+      background-color: #D9EDF7;
+    }
+  }
+}

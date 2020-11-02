@@ -1,0 +1,22 @@
+.alert {
+  display: inline-block;
+  position: fixed;
+  top: 10px;
+  right: 20px;
+  background-color: #dff0d8;
+  color: #768c50;
+  font-weight: 700;
+  padding: 10px 10px 10px 20px;
+  min-width: 280px;
+  border-radius: 0.25rem;
+  > span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: inherit;
+    width: 30px;
+    height: 30px;
+    color: #b1bfac;
+    cursor: pointer;
+  }
+}
