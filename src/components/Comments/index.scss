@@ -18,14 +18,16 @@ table {
       font-style: italic;
     }
   }
-  tr {
-    cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
-    &:hover {
-      background-color: #DDDDDD;
-    }
-    &.active {
-      background-color: #D9EDF7;
+  tbody{
+    tr {
+      cursor: pointer;
+      transition: background-color 0.3s ease-in-out;
+      &:hover {
+        background-color: #DDDDDD;
+      }
+      &.active {
+        background-color: #D9EDF7;
+      }
     }
   }
 }
