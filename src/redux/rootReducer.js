@@ -3,6 +3,6 @@ import { commentsReducer } from "./commentsReducer";
 import { appReducer } from "./appReducer";
 
 export const rootReducer = combineReducers({
-  allCommments: commentsReducer,
+  allComments: commentsReducer,
   app: appReducer,
 });

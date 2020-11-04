@@ -1,39 +1,39 @@
-import { CREATE_COMMENT, ADD_ACTIVE_COMMENTS, REMOVE_COMMENT } from "./types";
+import {
+  ADD_ACTIVE_COMMENT,
+  GET_REGIONS,
+  GET_CITIES,
+  GET_FEEDBACK,
+  SET_REGION_ID,
+  IS_EDITABLE,
+} from './types'
 
 const initialstate = {
-  activeComments: [],
-  comments: [
-    {
-      id: '1',
-      firstName: "Иван",
-      secondName: "Иванович",
-      surname: "Иванов",
-      tel: "(098)333-33-33",
-      email: "ivan@gmail.com",
-      comment: "Иван",
-    },
-    {
-      id: '2',
-      comment: "какой-то комментарий",
-      email: "sidorov@admin.ua",
-      firstName: "Артем",
-      id: "1604255888539",
-      secondName: "Игоревич",
-      surname: "Сидоров",
-      tel: "666214534",
-    },
-  ],
-};
+  activeComment: null,
+  regions: [],
+  cities: [],
+  feedback: [],
+  regionId: null,
+  isEditable: false,
+}
 
 export const commentsReducer = (state = initialstate, action) => {
   switch (action.type) {
-    case CREATE_COMMENT:
-      return { ...state, comments: state.comments.concat([action.payload]) };
-    case REMOVE_COMMENT:
-        return { ...state, comments: state.comments.filter((comment) => !action.payload.includes(comment.id))};
-    case ADD_ACTIVE_COMMENTS:
-      return { ...state, activeComments: [...state.activeComments, action.payload]};
+    case ADD_ACTIVE_COMMENT:
+      return {
+        ...state,
+        activeComment: action.payload,
+      }
+    case GET_REGIONS:
+      return { ...state, regions: action.payload }
+    case GET_FEEDBACK:
+      return { ...state, feedback: action.payload }
+    case GET_CITIES:
+      return { ...state, cities: action.payload }
+    case SET_REGION_ID:
+      return { ...state, regionId: action.payload }
+    case IS_EDITABLE:
+      return { ...state, isEditable: action.payload }
     default:
-      return state;
+      return state
   }
-};
+}

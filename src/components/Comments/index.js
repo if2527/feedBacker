@@ -1,28 +1,21 @@
-import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import "./index.scss";
-import {addActiveComments} from '../../redux/actions'
+import React from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import './index.scss'
+import { addActiveComment } from '../../redux/actions'
 
 const Comments = () => {
-  const comments = useSelector(state => state.allCommments.comments);
-  const activeComments = useSelector(state => state.allCommments.activeComments);
-  const dispatch = useDispatch();
+  const comments = useSelector((state) => state.allComments.feedback)
+  const selectedComment = useSelector((state) => state.allComments.activeComment)
+
+  const dispatch = useDispatch()
 
   const handleClick = (e) => {
-    const {id, className} = e.currentTarget;
-    if (!activeComments.includes(id)) {
-      dispatch(addActiveComments(id))
-    }
-
-    if (className !== 'active') {
-      e.currentTarget.className = 'active';
-    } else {
-      e.currentTarget.className = '';
-    }
+    const { id } = e.currentTarget
+    dispatch(addActiveComment(id))
   }
 
   return (
-    <div className="comments">
+    <div className='comments'>
       <table>
         <thead>
           <tr>
@@ -35,42 +28,53 @@ const Comments = () => {
         </thead>
         <tbody>
           {!comments.length && (
-            <tr>
-              <td colSpan="5">Записей нет</td>
+            <tr style={{pointerEvents: 'none'}}>
+              <td colSpan='5'>Записей нет</td>
             </tr>
           )}
           {comments.map((comment, index) => {
             return (
-              <tr key={comment.id} onClick={handleClick} id={comment.id}>
+              <tr key={comment.feedback_id} onClick={handleClick} id={comment.feedback_id}
+              className={selectedComment == comment.feedback_id ? 'active' : ''}
+
+              >
                 <td>{index + 1}</td>
                 <td>
                   <p>
-                    <strong>{comment.surname}</strong>
+                    <strong>{comment.feedback_lastname}</strong>
                   </p>
                   <p>
-                    {comment.firstName}{" "}
-                    {comment.secondName && comment.secondName}
+                    {comment.feedback_firstname}{' '}
+                    {comment.feedback_midname && comment.feedback_midname}
                   </p>
                   <p>
-                    <em>местность</em>
+                  {comment.region_name && !comment.city_name && (
+                    <em>
+                      {comment.region_name}
+                    </em>
+                  )}
+                   {comment.city_name && !comment.region_name && (
+                    <em>
+                      {comment.city_name}
+                    </em>
+                  )}
+                   {(comment.region_name && comment.city_name) && (
+                    <em>
+                      {comment.region_name}, {comment.city_name}
+                    </em>
+                  )}
                   </p>
                 </td>
-                <td>{comment.tel && comment.tel}</td>
-                <td>{comment.email && comment.email}</td>
-                <td>{comment.comment}</td>
+                <td>{comment.feedback_phone && comment.feedback_phone}</td>
+                <td>{comment.feedback_email && comment.feedback_email}</td>
+                <td>{comment.feedback_comment}</td>
               </tr>
-            );
+            )
           })}
         </tbody>
       </table>
     </div>
-  );
-};
+  )
+}
 
-const mapStateToProps = (state) => {
-  return {
-    comments: state.allCommments.comments,
-  };
-};
-
-export default Comments;
+export default Comments

@@ -1,6 +1,9 @@
 .alert {
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   position: fixed;
+  z-index: 99;
   top: 10px;
   right: 20px;
   background-color: #dff0d8;
