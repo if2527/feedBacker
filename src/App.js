@@ -1,11 +1,21 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {useDispatch } from "react-redux";
 import CommentsPage from "./pages/CommentsPage";
 import StatPage from "./pages/StatPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import Sidebar from "./components/SideBar";
+import { fetchRegions, fetchAllCities, fetchFeedback } from "./redux/actions";
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchRegions());
+    dispatch(fetchFeedback());
+    dispatch(fetchAllCities());
+  })
+
   return (
     <div>
       <Router>

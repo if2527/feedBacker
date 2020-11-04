@@ -36,6 +36,7 @@ export function editComment(comment) {
     payload: comment,
   }
 }
+
 export function isEdit(payload) {
   return {
     type: IS_EDITABLE,

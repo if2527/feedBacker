@@ -9,8 +9,11 @@ import {
   CREATE_COMMENT,
   REMOVE_COMMENT,
   EDIT_COMMENT,
+  RECEIVED_COMMENT,
+  UPDATE_COMMENT,
+  FILTER_COMMENT,
 } from './types'
-import { hideModal, showAlert } from './actions'
+import { hideModal, showAlert, showLoader, hideLoader, updateFeedback } from './actions'
 import { getRegionId, getActiveCommentId } from './selectors'
 import { API_URLS } from './constants'
 
@@ -29,6 +32,7 @@ function* createComment(action) {
     if (payload.error) {
       yield put(showAlert('Что-то пошло не так'))
     } else {
+      yield put({ type: RECEIVED_COMMENT, payload})
       yield put(hideModal())
       yield put(showAlert('Комментарий успешно создан'))
     }
@@ -48,6 +52,8 @@ function* editComment(action) {
     if (payload.error) {
       yield put(showAlert('Что-то пошло не так'))
     } else {
+      const updatedComment = { ...payload.data, id: activeCommentId}
+      yield put({ type: UPDATE_COMMENT, payload: updatedComment})
       yield put(hideModal())
       yield put(showAlert('Комментарий успешно отредактирован'))
     }
@@ -58,10 +64,15 @@ function* editComment(action) {
 
 function* removeComment(action) {
   try {
-    const payload = yield call(fetchRemoveComment, action.payload)
+    const activeCommentId = yield select(getActiveCommentId)
+    const payload = yield call(fetchRemoveComment, {
+      ...action.payload,
+      activeCommentId,
+    })
     if (payload.error) {
       yield put(showAlert('Что-то пошло не так'))
     } else {
+      yield put({ type: FILTER_COMMENT, payload: action.payload})
       yield put(showAlert('Комментарий успешно удален'))
     }
   } catch (e) {
@@ -80,10 +91,13 @@ function* fetchRegions() {
 
 function* fetchFeedback() {
   try {
+    yield put(showLoader())
     const payload = yield call(fetchData, [API_URLS.FEEDBACK])
     yield put({ type: GET_FEEDBACK, payload })
+    yield put(hideLoader())
   } catch (e) {
     yield put(showAlert('Что-то пошло не так'))
+    yield put(hideLoader())
   }
 }
 
@@ -99,6 +113,7 @@ function* fetchCities() {
       ])
       yield put({ type: GET_CITIES, payload })
     }
+
   } catch (e) {
     yield put(showAlert('Что-то пошло не так'))
   }
@@ -129,11 +144,10 @@ async function fetchEditComment(...payload) {
     },
     body: JSON.stringify(body),
   })
-  const json = await response.json()
-  return json
+  return await response.json();
 }
 
-async function fetchRemoveComment(...payload) {
+async function fetchRemoveComment(payload) {
   const id = payload[0]
   const response = await fetch(`${API_URLS.FEEDBACK}/${id}`, {
     method: 'DELETE',
@@ -141,8 +155,7 @@ async function fetchRemoveComment(...payload) {
       'Content-Type': 'application/json',
     },
   })
-  const json = await response.json()
-  return json
+  return await response.json();
 }
 
 async function fetchNewFeedback(...payload) {
@@ -164,6 +177,5 @@ async function fetchNewFeedback(...payload) {
     },
     body: JSON.stringify(body),
   })
-  const json = await response.json()
-  return json
+  return await response.json();
 }
