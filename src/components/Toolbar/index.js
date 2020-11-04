@@ -16,8 +16,8 @@ const Toolbar = () => {
   }
 
   const onEdit = () => {
-    dispatch(showModal())
     dispatch(isEdit(true))
+    dispatch(showModal())
   }
 
   return (
@@ -25,13 +25,10 @@ const Toolbar = () => {
       <button className='btn btn-primary' onClick={() => dispatch(showModal())}>
         <span className='icon'>+</span>Добавить
       </button>
-      {activeComment && (
-        <button className='btn btn-primary' onClick={onEdit}>
-          <span className='icon'>&#9998;</span>Редактировать
-        </button>
-      )}
-
-      <button className='btn btn-danger' onClick={onRemove}>
+      <button className='btn btn-primary' onClick={onEdit} disabled={activeComment ? false : true}>
+        <span className='icon'>&#9998;</span>Редактировать
+      </button>
+      <button className='btn btn-danger' onClick={onRemove} disabled={activeComment ? false : true}>
         <span className='icon'>&ndash;</span>Удалить
       </button>
     </div>

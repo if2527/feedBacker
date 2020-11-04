@@ -6,6 +6,7 @@ import {
   updateRegionId,
   fetchAllCities,
   editComment,
+  isEdit,
 } from '../../redux/actions'
 import validate from './validateRules'
 
@@ -51,7 +52,7 @@ const AddCommentForm = () => {
     } else {
       dispatch(editComment(newComment));
     }
-
+    dispatch(isEdit(false))
   }
 
   const handleChange = (e) => {

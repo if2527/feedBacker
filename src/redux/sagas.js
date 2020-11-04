@@ -10,7 +10,7 @@ import {
   REMOVE_COMMENT,
   EDIT_COMMENT,
 } from './types'
-import { showLoader, hideLoader, hideModal, showAlert, isEdit } from './actions'
+import { hideModal, showAlert } from './actions'
 import { getRegionId, getActiveCommentId } from './selectors'
 import { API_URLS } from './constants'
 
@@ -25,84 +25,70 @@ export function* sagaWatcher() {
 
 function* createComment(action) {
   try {
-    // yield put(showLoader())
     const payload = yield call(fetchNewFeedback, { ...action.payload })
     if (payload.error) {
-      yield put(showAlert('Что-то пошло не так1'))
+      yield put(showAlert('Что-то пошло не так'))
     } else {
-      yield put(isEdit(false))
       yield put(hideModal())
       yield put(showAlert('Комментарий успешно создан'))
     }
   } catch (e) {
     yield put(hideModal())
-    yield put(showAlert('Что-то пошло не так2'))
-    // yield put(hideLoader())
+    yield put(showAlert('Что-то пошло не так'))
   }
 }
 
 function* editComment(action) {
   try {
-    // yield put(showLoader())
     const activeCommentId = yield select(getActiveCommentId)
     const payload = yield call(fetchEditComment, {
       ...action.payload,
       activeCommentId,
     })
     if (payload.error) {
-      yield put(showAlert('Что-то пошло не так3'))
+      yield put(showAlert('Что-то пошло не так'))
     } else {
       yield put(hideModal())
       yield put(showAlert('Комментарий успешно отредактирован'))
     }
   } catch (e) {
-    yield put(showAlert('Что-то пошло не так4'))
-    // yield put(hideLoader())
+    yield put(showAlert('Что-то пошло не так'))
   }
 }
 
 function* removeComment(action) {
   try {
-    // yield put(showLoader())
     const payload = yield call(fetchRemoveComment, action.payload)
     if (payload.error) {
-      yield put(showAlert('Что-то пошло не так5'))
+      yield put(showAlert('Что-то пошло не так'))
     } else {
       yield put(showAlert('Комментарий успешно удален'))
     }
   } catch (e) {
-    yield put(showAlert('Что-то пошло не так6'))
-    // yield put(hideLoader())
+    yield put(showAlert('Что-то пошло не так'))
   }
 }
 
 function* fetchRegions() {
   try {
-    // yield put(showLoader())
     const payload = yield call(fetchData, [API_URLS.REGIONS])
     yield put({ type: GET_REGIONS, payload })
-    yield put(hideLoader())
   } catch (e) {
-    yield put(showAlert('Что-то пошло не так7'))
-    // yield put(hideLoader())
+    yield put(showAlert('Что-то пошло не так'))
   }
 }
 
 function* fetchFeedback() {
   try {
-    yield put(showLoader())
     const payload = yield call(fetchData, [API_URLS.FEEDBACK])
     yield put({ type: GET_FEEDBACK, payload })
-    yield put(hideLoader())
   } catch (e) {
-    yield put(showAlert('Что-то пошло не так8'))
-    yield put(hideLoader())
+    yield put(showAlert('Что-то пошло не так'))
   }
 }
 
 function* fetchCities() {
   try {
-    // yield put(showLoader())
     const regionId = yield select(getRegionId)
     if (!regionId) {
       const payload = yield call(fetchData, [API_URLS.CITIES])
@@ -113,10 +99,8 @@ function* fetchCities() {
       ])
       yield put({ type: GET_CITIES, payload })
     }
-    yield put(hideLoader())
   } catch (e) {
-    yield put(showAlert('Что-то пошло не так9'))
-    // yield put(hideLoader())
+    yield put(showAlert('Что-то пошло не так'))
   }
 }
 

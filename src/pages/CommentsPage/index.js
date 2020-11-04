@@ -6,7 +6,6 @@ import Toolbar from "../../components/Toolbar";
 import Modal from "../../components/Modal";
 import Alert from "../../components/Alert";
 import { fetchRegions, fetchAllCities, fetchFeedback } from "../../redux/actions";
-import Loader from "../../components/Loader";
 
 const CommentsPage = () => {
   const modal = useSelector((state) => state.app.modal);
@@ -15,9 +14,9 @@ const CommentsPage = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // dispatch(fetchRegions());
+    dispatch(fetchRegions());
     dispatch(fetchFeedback());
-    // dispatch(fetchAllCities());
+    dispatch(fetchAllCities());
   })
 
   return (
@@ -26,8 +25,8 @@ const CommentsPage = () => {
         <Toolbar />
       </div>
       <div className="content-body">
-        {/* {!loader ? <Comments /> : <Loader />} */}
-        <Comments />
+        {loader ? <p>loading...</p> : <Comments /> }
+        {/* <Comments /> */}
       </div>
       {modal && <Modal />}
       {alert && <Alert text={alert} />}

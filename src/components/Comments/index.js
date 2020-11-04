@@ -5,7 +5,7 @@ import { addActiveComment } from '../../redux/actions'
 
 const Comments = () => {
   const comments = useSelector((state) => state.allComments.feedback)
-  const selectedComment = useSelector((state) => state.allComments.activeComment)
+  const activeComment = useSelector((state) => state.allComments.activeComment)
 
   const dispatch = useDispatch()
 
@@ -28,15 +28,17 @@ const Comments = () => {
         </thead>
         <tbody>
           {!comments.length && (
-            <tr style={{pointerEvents: 'none'}}>
+            <tr style={{ pointerEvents: 'none' }}>
               <td colSpan='5'>Записей нет</td>
             </tr>
           )}
           {comments.map((comment, index) => {
             return (
-              <tr key={comment.feedback_id} onClick={handleClick} id={comment.feedback_id}
-              className={selectedComment == comment.feedback_id ? 'active' : ''}
-
+              <tr
+                key={comment.feedback_id}
+                onClick={handleClick}
+                id={comment.feedback_id}
+                className={activeComment == comment.feedback_id ? 'active' : ''}
               >
                 <td>{index + 1}</td>
                 <td>
@@ -48,21 +50,17 @@ const Comments = () => {
                     {comment.feedback_midname && comment.feedback_midname}
                   </p>
                   <p>
-                  {comment.region_name && !comment.city_name && (
-                    <em>
-                      {comment.region_name}
-                    </em>
-                  )}
-                   {comment.city_name && !comment.region_name && (
-                    <em>
-                      {comment.city_name}
-                    </em>
-                  )}
-                   {(comment.region_name && comment.city_name) && (
-                    <em>
-                      {comment.region_name}, {comment.city_name}
-                    </em>
-                  )}
+                    {comment.region_name && !comment.city_name && (
+                      <em>{comment.region_name}</em>
+                    )}
+                    {comment.city_name && !comment.region_name && (
+                      <em>{comment.city_name}</em>
+                    )}
+                    {comment.region_name && comment.city_name && (
+                      <em>
+                        {comment.region_name}, {comment.city_name}
+                      </em>
+                    )}
                   </p>
                 </td>
                 <td>{comment.feedback_phone && comment.feedback_phone}</td>
